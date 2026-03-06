@@ -110,7 +110,7 @@ export const deliverLead = async (lead, meta) => {
 
     return {
       channel: 'file',
-      message: 'Заявка принята. Сервер сохранил сообщение в локальный inbox log.',
+      message: 'Локальный режим: заявка сохранена в server/data/leads.log. Для реальных уведомлений подключите SMTP или другой backend delivery.',
     }
   }
 
