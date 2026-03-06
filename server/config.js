@@ -27,6 +27,47 @@ const derivedOrigins = [
 const defaultOrigins = ['http://127.0.0.1:5173', 'http://localhost:5173', ...derivedOrigins]
 const configuredOrigins = splitList(process.env.ALLOWED_ORIGINS)
 
+const normalizeOrigin = (value) => {
+  try {
+    return new URL(String(value || '').trim()).origin
+  } catch {
+    return ''
+  }
+}
+
+const getRequestHost = (requestLike) => {
+  const headers = requestLike?.headers || {}
+  const forwardedHost = headers['x-forwarded-host']
+  const directHost = headers.host
+
+  return String(forwardedHost || directHost || requestLike?.host || '')
+    .split(',')[0]
+    .trim()
+}
+
+const getRequestProtocol = (requestLike, host) => {
+  const headers = requestLike?.headers || {}
+  const forwardedProto = String(headers['x-forwarded-proto'] || requestLike?.protocol || '')
+    .split(',')[0]
+    .trim()
+
+  if (forwardedProto) {
+    return forwardedProto
+  }
+
+  return /localhost|127\.0\.0\.1/i.test(host) ? 'http' : 'https'
+}
+
+const getRequestOrigin = (requestLike) => {
+  const host = getRequestHost(requestLike)
+
+  if (!host) {
+    return ''
+  }
+
+  return normalizeOrigin(`${getRequestProtocol(requestLike, host)}://${host}`)
+}
+
 export const serverConfig = {
   allowedOrigins: configuredOrigins.length ? configuredOrigins : defaultOrigins,
   deliveryMode: (process.env.LEAD_DELIVERY_MODE || (smtpConfigured ? 'smtp' : 'file')).toLowerCase(),
@@ -56,4 +97,18 @@ export const isOriginAllowed = (origin) => {
   }
 
   return serverConfig.allowedOrigins.includes(origin)
+}
+
+export const isRequestOriginAllowed = (origin, requestLike) => {
+  const normalizedOrigin = normalizeOrigin(origin)
+
+  if (!normalizedOrigin) {
+    return !origin
+  }
+
+  if (serverConfig.allowedOrigins.includes(normalizedOrigin)) {
+    return true
+  }
+
+  return getRequestOrigin(requestLike) === normalizedOrigin
 }

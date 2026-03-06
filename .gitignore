@@ -30,3 +30,5 @@ server/api-error.log
 *.njsproj
 *.sln
 *.sw?
+
+.vercel

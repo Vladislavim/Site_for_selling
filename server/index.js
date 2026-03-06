@@ -3,7 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 
-import { isOriginAllowed, serverConfig } from './config.js'
+import { isRequestOriginAllowed, serverConfig } from './config.js'
 import { buildHealthResponse, buildLeadResponse } from './leadApi.js'
 import { verifyTransport } from './leadDelivery.js'
 
@@ -12,18 +12,16 @@ const app = express()
 app.disable('x-powered-by')
 app.set('trust proxy', serverConfig.requestTrustProxy)
 
-const corsOptions = {
-  credentials: false,
-  methods: ['GET', 'POST', 'OPTIONS'],
-  optionsSuccessStatus: 204,
-  origin(origin, callback) {
-    if (isOriginAllowed(origin)) {
-      callback(null, true)
-      return
-    }
+const corsOptionsDelegate = (request, callback) => {
+  const origin = request.header('Origin')
+  const allowed = isRequestOriginAllowed(origin, request)
 
-    callback(new Error('Origin is not allowed by policy.'))
-  },
+  callback(allowed ? null : new Error('Origin is not allowed by policy.'), {
+    credentials: false,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    optionsSuccessStatus: 204,
+    origin: allowed ? origin || true : false,
+  })
 }
 
 app.use(
@@ -32,7 +30,7 @@ app.use(
     crossOriginEmbedderPolicy: false,
   }),
 )
-app.use(cors(corsOptions))
+app.use(cors(corsOptionsDelegate))
 app.use(
   express.json({
     limit: serverConfig.jsonLimit,

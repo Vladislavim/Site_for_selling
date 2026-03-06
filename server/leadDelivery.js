@@ -52,6 +52,10 @@ const buildHtmlBody = (lead, meta) => {
 
   return `<!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
   <body style="margin:0;padding:24px;background:#0b1220;color:#111827;font-family:Arial,sans-serif;">
     <div style="max-width:760px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #dbe3f0;">
       <div style="padding:20px 24px;background:linear-gradient(120deg,#f8fafc,#dbeafe,#ecfeff);">
@@ -121,11 +125,13 @@ export const deliverLead = async (lead, meta) => {
   const replyTo = lead.contactMethod === 'Email' ? lead.contactValue : undefined
 
   await transporter.sendMail({
+    encoding: 'base64',
     from: serverConfig.smtp.from,
     html: buildHtmlBody(lead, meta),
     replyTo,
     subject,
     text: buildTextBody(lead, meta),
+    textEncoding: 'base64',
     to: serverConfig.leadToEmail,
   })
 

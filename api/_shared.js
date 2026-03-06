@@ -1,9 +1,9 @@
-import { isOriginAllowed } from '../server/config.js'
+import { isRequestOriginAllowed } from '../server/config.js'
 
 const setCorsHeaders = (request, response) => {
   const origin = request.headers.origin || ''
 
-  if (origin && isOriginAllowed(origin)) {
+  if (origin && isRequestOriginAllowed(origin, request)) {
     response.setHeader('Access-Control-Allow-Origin', origin)
     response.setHeader('Vary', 'Origin')
   }
@@ -20,7 +20,7 @@ export const handleOptions = (request, response) => {
 export const rejectOrigin = (request, response) => {
   const origin = request.headers.origin || ''
 
-  if (!origin || isOriginAllowed(origin)) {
+  if (!origin || isRequestOriginAllowed(origin, request)) {
     setCorsHeaders(request, response)
     return false
   }
