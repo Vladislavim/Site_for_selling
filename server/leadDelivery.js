@@ -72,10 +72,13 @@ const transporter = isSmtpEnabled
         pass: serverConfig.smtp.pass,
         user: serverConfig.smtp.user,
       },
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
       host: serverConfig.smtp.host,
       pool: true,
       port: serverConfig.smtp.port,
       secure: serverConfig.smtp.secure,
+      socketTimeout: 15_000,
     })
   : null
 

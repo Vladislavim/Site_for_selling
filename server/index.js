@@ -82,14 +82,12 @@ app.use((error, _request, response, _next) => {
 })
 
 const start = async () => {
-  try {
-    await verifyTransport()
-  } catch (error) {
-    console.error('[lead-api] SMTP verification failed:', error)
-  }
-
   app.listen(serverConfig.port, () => {
     console.log(`[lead-api] listening on http://127.0.0.1:${serverConfig.port}`)
+
+    verifyTransport().catch((error) => {
+      console.error('[lead-api] SMTP verification failed:', error)
+    })
   })
 }
 
