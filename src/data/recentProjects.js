@@ -1,27 +1,18 @@
-const asset = (path) => new URL(`../../recent projects/${path}`, import.meta.url).href
+import aurelia01 from '../../recent projects/1.jpg'
+import aurelia02 from '../../recent projects/2.jpg'
+import aurelia03 from '../../recent projects/3.jpg'
+import aurelia04 from '../../recent projects/4.jpg'
+import aureliaIntro from '../../recent projects/intro.mp4'
+
+import allnrg01 from '../../recent projects/allnrg.ru/1.jpg'
+import allnrg02 from '../../recent projects/allnrg.ru/2.jpg'
+import allnrg03 from '../../recent projects/allnrg.ru/3.jpg'
+import allnrg04 from '../../recent projects/allnrg.ru/4.jpg'
+import allnrg05 from '../../recent projects/allnrg.ru/5.jpg'
+import allnrg06 from '../../recent projects/allnrg.ru/6.jpg'
+import allnrgIntro from '../../recent projects/allnrg.ru/intro.mp4'
 
 export const recentProjects = [
-  {
-    slug: 'aurelia-atlas',
-    title: 'Aurelia / Cosmic Interface Atelier',
-    category: 'Premium landing',
-    label: 'Арт-дирекшн + motion',
-    summary:
-      'Имиджевый landing page с космической подачей, дорогой глубиной интерфейса и спокойной типографикой, которая удерживает premium-ощущение без визуального шума.',
-    outcome:
-      'Показывает, как можно продать сложный визуальный уровень через controlled motion, стеклянные панели, крупную типографику и ощущение digital-объекта, а не обычного лендинга.',
-    deliverables: [
-      'Hero-сцена с planet-scale depth',
-      'Сложная visual hierarchy без перегруза',
-      'Premium UI для презентации продукта',
-      'Атмосферный интерфейс с характером',
-    ],
-    stack: ['React', 'Framer Motion', 'GSAP', 'Three.js direction'],
-    cover: asset('1.jpg'),
-    video: asset('intro.mp4'),
-    gallery: [asset('1.jpg'), asset('2.jpg'), asset('3.jpg'), asset('4.jpg')],
-    palette: 'from-ice/20 via-white/8 to-cyan-400/10',
-  },
   {
     slug: 'allnrg-corporate',
     title: 'Альянс Энерджи / allnrg.ru',
@@ -38,16 +29,30 @@ export const recentProjects = [
       'Контактные сценарии без трения',
     ],
     stack: ['Multi-page', 'Service structure', 'Corporate UX', 'Lead capture'],
-    cover: asset('allnrg.ru/1.jpg'),
-    video: asset('allnrg.ru/intro.mp4'),
-    gallery: [
-      asset('allnrg.ru/1.jpg'),
-      asset('allnrg.ru/2.jpg'),
-      asset('allnrg.ru/3.jpg'),
-      asset('allnrg.ru/4.jpg'),
-      asset('allnrg.ru/5.jpg'),
-      asset('allnrg.ru/6.jpg'),
-    ],
+    cover: allnrg01,
+    video: allnrgIntro,
+    gallery: [allnrg01, allnrg02, allnrg03, allnrg04, allnrg05, allnrg06],
     palette: 'from-coral/14 via-sand/10 to-white/5',
+  },
+  {
+    slug: 'aurelia-atlas',
+    title: 'Aurelia / Cosmic Interface Atelier',
+    category: 'Premium landing',
+    label: 'Арт-дирекшн + motion',
+    summary:
+      'Имиджевый landing page с космической подачей, дорогой глубиной интерфейса и спокойной типографикой, которая удерживает premium-ощущение без визуального шума.',
+    outcome:
+      'Показывает, как можно продать сложный визуальный уровень через controlled motion, стеклянные панели, крупную типографику и ощущение digital-объекта, а не обычного лендинга.',
+    deliverables: [
+      'Hero-сцена с planet-scale depth',
+      'Сложная visual hierarchy без перегруза',
+      'Premium UI для презентации продукта',
+      'Атмосферный интерфейс с характером',
+    ],
+    stack: ['React', 'Framer Motion', 'GSAP', 'Three.js direction'],
+    cover: aurelia01,
+    video: aureliaIntro,
+    gallery: [aurelia01, aurelia02, aurelia03, aurelia04],
+    palette: 'from-ice/20 via-white/8 to-cyan-400/10',
   },
 ]
