@@ -19,6 +19,12 @@ const orbitNodes = [
   { label: 'SEO-страницы', x: '40%', y: '80%' },
 ]
 
+const heroHeadlineLines = [
+  { text: 'Напишу сайт,', highlights: ['сайт'] },
+  { text: 'который хочется', highlights: ['хочется'] },
+  { text: 'заказать быстро.', highlights: ['заказать', 'быстро'] },
+]
+
 const signalCards = [
   {
     icon: Zap,
@@ -59,18 +65,23 @@ export const HeroSection = () => {
           <p className="mt-5 text-sm font-medium uppercase tracking-[0.28em] text-mist">
             веб-разработка под ключ / создание сайта для бизнеса / premium digital delivery
           </p>
-          <AnimatedText
-            as="h1"
-            className="headline-trail mt-6 max-w-4xl text-4xl font-black leading-[1.01] text-pearl sm:text-5xl lg:text-[5.2rem]"
-            highlightWords={['сайт', 'заказать', 'под', 'ключ']}
-            text="Напишу сайт, который хочется заказать"
-          />
-          <AnimatedText
-            as="div"
-            className="text-cosmic mt-2 text-3xl font-black leading-[1.05] sm:text-4xl lg:text-[4.2rem]"
-            highlightWords={['быстро', 'ключ', 'боли']}
-            text="быстро, под ключ и без лишней головной боли"
-          />
+          <div className="mt-6 space-y-1.5 sm:space-y-2">
+            {heroHeadlineLines.map((line, index) => (
+              <AnimatedText
+                key={line.text}
+                as={index === 0 ? 'h1' : 'div'}
+                className="headline-trail max-w-4xl text-4xl font-black leading-[0.96] text-pearl sm:text-5xl lg:text-[5.2rem]"
+                highlightWords={line.highlights}
+                text={line.text}
+              />
+            ))}
+          </div>
+          <p className="mt-6 max-w-3xl text-balance text-xl font-black leading-[1.15] text-pearl sm:text-[1.85rem] lg:text-[2.3rem]">
+            <span className="text-cosmic">Под ключ</span>
+            <span className="text-pearl/88">, без лишней бюрократии</span>
+            <span className="text-pearl/72"> и </span>
+            <span className="text-cosmic">без лишней головной боли.</span>
+          </p>
           <p className="mt-6 max-w-3xl font-serif text-[1.38rem] leading-9 text-pearl/82 sm:text-[1.52rem]">
             Лендинги, многостраничные сайты, анимации, уникальный дизайн, React-разработка и продающие решения для
             бизнеса
