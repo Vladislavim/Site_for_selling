@@ -25,7 +25,7 @@ const CompactProjectCard = ({ project }) => (
         <div className={`absolute inset-0 bg-gradient-to-br ${project.palette}`} />
         <img
           alt={project.title}
-          className="h-[300px] w-full object-cover object-top opacity-95 transition duration-700 group-hover:scale-[1.03]"
+          className="h-[220px] w-full object-cover object-top opacity-95 transition duration-700 group-hover:scale-[1.03] sm:h-[300px]"
           loading="lazy"
           src={project.cover}
         />
@@ -103,14 +103,14 @@ const ProjectMediaStage = ({ project }) => {
         </button>
       </div>
 
-      <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[#040711] shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+      <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#040711] shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:rounded-[30px]">
         <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${project.palette}`} />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_40%)]" />
         {stageMode === 'video' && project.video ? (
           <div className="relative z-[1]">
             <video
               autoPlay
-              className="h-[360px] w-full object-cover object-top xl:h-[460px]"
+              className="h-[220px] w-full object-cover object-top sm:h-[320px] xl:h-[460px]"
               loop
               muted
               playsInline
@@ -129,10 +129,10 @@ const ProjectMediaStage = ({ project }) => {
             </div>
           </div>
         ) : (
-          <div className="relative z-[1] flex min-h-[360px] items-center justify-center p-3 sm:p-4 xl:min-h-[460px] xl:p-6">
+          <div className="relative z-[1] flex min-h-[240px] items-center justify-center p-2.5 sm:min-h-[320px] sm:p-4 xl:min-h-[460px] xl:p-6">
             <img
               alt={`${project.title} selected screenshot ${activeImageIndex + 1}`}
-              className="max-h-[440px] w-full rounded-[22px] border border-white/10 bg-[#040711] object-contain object-center shadow-[0_12px_50px_rgba(0,0,0,0.28)]"
+              className="max-h-[440px] w-full rounded-[18px] border border-white/10 bg-[#040711] object-contain object-center shadow-[0_12px_50px_rgba(0,0,0,0.28)] sm:rounded-[22px]"
               loading="lazy"
               src={activeImage}
             />
@@ -140,11 +140,12 @@ const ProjectMediaStage = ({ project }) => {
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+      <div className="-mx-1 mt-4 flex snap-x gap-3 overflow-x-auto px-1 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4">
         {project.video ? (
           <button
             className={cn(
               thumbClass,
+              'min-w-[9.5rem] shrink-0 snap-start sm:min-w-0',
               stageMode === 'video'
                 ? 'border-mint/30 bg-mint/8 shadow-[0_0_24px_rgba(140,242,211,0.12)]'
                 : 'border-white/10 bg-black/18 hover:border-white/18',
@@ -166,6 +167,7 @@ const ProjectMediaStage = ({ project }) => {
             key={`${project.slug}-${image}`}
             className={cn(
               thumbClass,
+              'min-w-[9.5rem] shrink-0 snap-start sm:min-w-0',
               stageMode === 'image' && activeImageIndex === index
                 ? 'border-ice/30 bg-ice/8 shadow-[0_0_24px_rgba(136,191,255,0.14)]'
                 : 'border-white/10 bg-black/18 hover:border-white/18',
@@ -179,7 +181,7 @@ const ProjectMediaStage = ({ project }) => {
             <div className="relative overflow-hidden bg-[#040711]">
               <img
                 alt={`${project.title} thumbnail ${index + 1}`}
-                className="h-24 w-full object-cover object-top opacity-92 transition duration-300 group-hover:scale-[1.03]"
+                className="h-24 w-full object-cover object-top opacity-92 transition duration-300 group-hover:scale-[1.03] sm:h-28"
                 loading="lazy"
                 src={image}
               />
@@ -197,7 +199,7 @@ const ProjectMediaStage = ({ project }) => {
 const FullProjectCard = ({ project }) => (
   <Motion.article variants={fadeUp}>
     <GlassPanel className="p-5 sm:p-6 xl:p-7">
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(340px,0.8fr)] xl:items-start">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.12fr)_minmax(280px,0.88fr)] lg:items-start xl:grid-cols-[minmax(0,1.2fr)_minmax(340px,0.8fr)]">
         <ProjectMediaStage project={project} />
         <div className="flex h-full flex-col gap-4">
           <div className="flex flex-wrap items-center gap-3">
@@ -237,11 +239,11 @@ const FullProjectCard = ({ project }) => (
               ))}
             </div>
           </div>
-          <div className="flex flex-wrap gap-3 pt-2">
-            <Button to="/contact" variant="secondary">
+          <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
+            <Button className="justify-center" to="/contact" variant="secondary" wrapperClassName="w-full sm:w-auto">
               Хочу похожий уровень
             </Button>
-            <Button to="/services" variant="ghost">
+            <Button className="justify-center" to="/services" variant="ghost" wrapperClassName="w-full sm:w-auto">
               Подобрать формат сайта
             </Button>
           </div>
@@ -272,7 +274,7 @@ export const RecentProjectsShowcaseSection = ({ id, mode = 'full', tone = 'mint'
             }
           />
           {isCompact ? (
-            <Button to="/portfolio" variant="secondary">
+            <Button className="justify-center" to="/portfolio" variant="secondary" wrapperClassName="w-full sm:w-auto">
               Открыть полную витрину
             </Button>
           ) : null}

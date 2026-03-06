@@ -1,35 +1,12 @@
 import { useState } from 'react'
 import { ShieldCheck } from 'lucide-react'
 
+import { persistCookieConsent, readCookieConsent } from '@/utils/cookieConsent'
 import { Button } from '@/ui/Button'
 import { GlassPanel } from '@/ui/GlassPanel'
 
-const CONSENT_KEY = 'exestination-cookie-consent'
-
-const readConsent = () => {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
-  try {
-    const raw = window.localStorage.getItem(CONSENT_KEY)
-    return raw ? JSON.parse(raw) : null
-  } catch {
-    return null
-  }
-}
-
-const persistConsent = (consent) => {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  window.localStorage.setItem(CONSENT_KEY, JSON.stringify(consent))
-  window.dispatchEvent(new CustomEvent('exestination:cookie-consent', { detail: consent }))
-}
-
 export const CookieConsentBanner = () => {
-  const [hasConsent, setHasConsent] = useState(() => Boolean(readConsent()))
+  const [hasConsent, setHasConsent] = useState(() => Boolean(readCookieConsent()))
   const [isExpanded, setIsExpanded] = useState(false)
 
   if (hasConsent) {
@@ -37,7 +14,7 @@ export const CookieConsentBanner = () => {
   }
 
   const handleConsent = (analytics) => {
-    persistConsent({
+    persistCookieConsent({
       acceptedAt: new Date().toISOString(),
       analytics,
       essential: true,
@@ -82,13 +59,13 @@ export const CookieConsentBanner = () => {
             ) : null}
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:justify-end">
-            <Button magnetic={false} onClick={() => setIsExpanded((value) => !value)} variant="ghost">
+            <Button className="w-full justify-center sm:w-auto" magnetic={false} onClick={() => setIsExpanded((value) => !value)} variant="ghost">
               {isExpanded ? 'Скрыть детали' : 'Что именно используется'}
             </Button>
-            <Button magnetic={false} onClick={() => handleConsent(false)} variant="secondary">
+            <Button className="w-full justify-center sm:w-auto" magnetic={false} onClick={() => handleConsent(false)} variant="secondary">
               Только необходимые
             </Button>
-            <Button magnetic={false} onClick={() => handleConsent(true)} variant="accent">
+            <Button className="w-full justify-center sm:w-auto" magnetic={false} onClick={() => handleConsent(true)} variant="accent">
               Принять
             </Button>
           </div>

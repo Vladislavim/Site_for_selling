@@ -26,6 +26,7 @@ export const Button = ({
   target,
   rel,
   type = 'button',
+  wrapperClassName,
   ...props
 }) => {
   const classes = cn(
@@ -73,7 +74,7 @@ export const Button = ({
 
   if (to) {
     return (
-      <Motion.div className="inline-flex" {...motionProps}>
+      <Motion.div className={cn('inline-flex', wrapperClassName)} {...motionProps}>
         <Link className={classes} to={to} {...props}>
           {content}
         </Link>
@@ -83,7 +84,7 @@ export const Button = ({
 
   if (href) {
     return (
-      <Motion.div className="inline-flex" {...motionProps}>
+      <Motion.div className={cn('inline-flex', wrapperClassName)} {...motionProps}>
         <a className={classes} href={href} target={target} rel={rel} {...props}>
           {content}
         </a>

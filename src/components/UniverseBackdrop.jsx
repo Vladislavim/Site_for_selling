@@ -302,15 +302,15 @@ export const UniverseBackdrop = () => {
         <LazyUniverseScene quality={quality} routeKey={locationKey} scrollRef={scrollRef} />
       </Suspense>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.14),transparent_42%)]" />
-      <div className="absolute -left-[18rem] top-[8rem] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(140,242,211,0.1),transparent_70%)] blur-3xl animate-drift" />
-      <div className="absolute -right-[12rem] top-[10rem] h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(255,142,114,0.1),transparent_72%)] blur-3xl [animation-delay:-6s] animate-drift" />
-      <div className="absolute left-1/2 top-[24%] h-[44rem] w-[44rem] -translate-x-1/2 rounded-full border border-white/6 opacity-30" />
-      <div className="absolute left-1/2 top-[24%] h-[58rem] w-[58rem] -translate-x-1/2 rounded-full border border-white/5 opacity-16" />
+      <div className="absolute -left-[18rem] top-[8rem] hidden h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(140,242,211,0.1),transparent_70%)] blur-3xl animate-drift sm:block" />
+      <div className="absolute -right-[12rem] top-[10rem] hidden h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(255,142,114,0.1),transparent_72%)] blur-3xl [animation-delay:-6s] animate-drift sm:block" />
+      <div className="absolute left-1/2 top-[24%] h-[28rem] w-[28rem] -translate-x-1/2 rounded-full border border-white/6 opacity-18 sm:h-[44rem] sm:w-[44rem] sm:opacity-30" />
+      <div className="absolute left-1/2 top-[24%] hidden h-[58rem] w-[58rem] -translate-x-1/2 rounded-full border border-white/5 opacity-16 lg:block" />
       <div className="absolute inset-x-[-15%] top-[28%] h-px bg-gradient-to-r from-transparent via-white/14 to-transparent opacity-60" />
-      <div className="absolute left-[8%] top-[14%] h-[26rem] w-[10rem] rotate-[28deg] bg-[linear-gradient(180deg,transparent,rgba(140,242,211,0.12),transparent)] blur-3xl animate-beam" />
-      <div className="absolute right-[8%] top-[10%] h-[22rem] w-[9rem] rotate-[-28deg] bg-[linear-gradient(180deg,transparent,rgba(136,191,255,0.14),transparent)] blur-3xl [animation-delay:-6s] animate-beam" />
-      <div className="absolute left-[12%] top-[42%] h-[22rem] w-[22rem] rounded-full border border-white/6 opacity-18 animate-orbit" />
-      <div className="absolute right-[16%] top-[58%] h-[18rem] w-[18rem] rounded-full border border-white/6 opacity-16 animate-orbitReverse" />
+      <div className="absolute left-[8%] top-[14%] hidden h-[26rem] w-[10rem] rotate-[28deg] bg-[linear-gradient(180deg,transparent,rgba(140,242,211,0.12),transparent)] blur-3xl animate-beam sm:block" />
+      <div className="absolute right-[8%] top-[10%] hidden h-[22rem] w-[9rem] rotate-[-28deg] bg-[linear-gradient(180deg,transparent,rgba(136,191,255,0.14),transparent)] blur-3xl [animation-delay:-6s] animate-beam sm:block" />
+      <div className="absolute left-[12%] top-[42%] hidden h-[22rem] w-[22rem] rounded-full border border-white/6 opacity-18 animate-orbit lg:block" />
+      <div className="absolute right-[16%] top-[58%] hidden h-[18rem] w-[18rem] rounded-full border border-white/6 opacity-16 animate-orbitReverse lg:block" />
     </div>
   )
 }

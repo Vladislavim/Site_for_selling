@@ -3,6 +3,7 @@ import { AnimatePresence, motion as Motion } from 'framer-motion'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { CookieConsentBanner } from '@/components/CookieConsentBanner'
+import { ConsentAwareAnalytics } from '@/components/ConsentAwareAnalytics'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { UniverseBackdrop } from '@/components/UniverseBackdrop'
@@ -72,6 +73,7 @@ const App = () => {
       <AppRoutes />
       <Footer />
       <CookieConsentBanner />
+      <ConsentAwareAnalytics />
     </div>
   )
 }

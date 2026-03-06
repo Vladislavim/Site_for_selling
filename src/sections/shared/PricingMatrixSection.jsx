@@ -19,7 +19,7 @@ export const PricingMatrixSection = ({
         <span className="rounded-full border border-white/10 bg-white/6 px-4 py-2">Premium reveal</span>
         <span className="rounded-full border border-white/10 bg-white/6 px-4 py-2">Custom mission</span>
       </div>
-      <div className="mt-10 grid items-stretch gap-5 xl:auto-rows-fr xl:grid-cols-4">
+      <div className="mt-10 grid items-stretch gap-5 md:grid-cols-2 xl:auto-rows-fr xl:grid-cols-4">
         {pricingPackages.map((item, index) => (
           <PricingCard key={item.name} featured={index === 2} item={item} />
         ))}

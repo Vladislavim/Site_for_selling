@@ -16,7 +16,7 @@ export const Footer = () => (
           digital-проекты с premium подачей и ясной логикой контакта.
         </p>
       </div>
-      <div className="grid gap-8 sm:grid-cols-2 lg:min-w-[460px]">
+      <div className="grid w-full gap-8 sm:grid-cols-2 lg:w-auto lg:max-w-[520px]">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-mist">Навигация</p>
           <div className="mt-4 flex flex-col gap-3">
@@ -33,7 +33,7 @@ export const Footer = () => (
             {ORDER_EMAIL}
           </a>
           <div className="mt-5">
-            <Button href={createOrderMailto()} variant="secondary">
+            <Button className="justify-center" href={createOrderMailto()} variant="secondary" wrapperClassName="w-full sm:w-auto">
               Быстрый запрос
             </Button>
           </div>

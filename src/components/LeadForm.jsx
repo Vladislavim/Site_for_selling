@@ -276,7 +276,7 @@ export const LeadForm = ({
                 браузере пользователя.
               </p>
               <Button
-                className="justify-center sm:min-w-[230px]"
+                className="w-full justify-center sm:w-auto sm:min-w-[230px]"
                 disabled={isSubmitting}
                 icon={!isSubmitting}
                 type="submit"

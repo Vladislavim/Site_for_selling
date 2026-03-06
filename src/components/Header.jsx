@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 
@@ -11,11 +11,19 @@ import { createOrderMailto } from '@/utils/mailto'
 export const Header = () => {
   const [open, setOpen] = useState(false)
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-ink/65 backdrop-blur-2xl">
-      <div className="container flex h-20 items-center justify-between gap-6">
-        <LogoMark />
-        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] lg:flex">
+    <header className="sticky top-0 z-50 border-b border-white/8 bg-ink/72 backdrop-blur-2xl supports-[backdrop-filter]:bg-ink/60">
+      <div className="container flex h-16 items-center justify-between gap-3 sm:h-20 sm:gap-6">
+        <LogoMark className="min-w-0 flex-1 xl:flex-none" />
+        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] xl:flex">
           {navigationItems.map((item) => (
             <NavLink
               key={item.path}
@@ -31,14 +39,15 @@ export const Header = () => {
             </NavLink>
           ))}
         </nav>
-        <div className="hidden lg:block">
-          <Button href={createOrderMailto()} variant="accent">
-            Заказать услугу
+        <div className="hidden xl:block">
+          <Button className="whitespace-nowrap" href={createOrderMailto()} variant="accent">
+            Р—Р°РєР°Р·Р°С‚СЊ СѓСЃР»СѓРіСѓ
           </Button>
         </div>
         <button
-          aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
-          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/6 text-pearl lg:hidden"
+          aria-expanded={open}
+          aria-label={open ? 'Р—Р°РєСЂС‹С‚СЊ РјРµРЅСЋ' : 'РћС‚РєСЂС‹С‚СЊ РјРµРЅСЋ'}
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/6 text-pearl xl:hidden"
           onClick={() => setOpen((value) => !value)}
           type="button"
         >
@@ -46,8 +55,8 @@ export const Header = () => {
         </button>
       </div>
       {open ? (
-        <div className="border-t border-white/8 bg-ink/96 lg:hidden">
-          <div className="container flex flex-col gap-3 py-5">
+        <div className="border-t border-white/8 bg-ink/96 xl:hidden">
+          <div className="container flex max-h-[calc(100dvh-4rem)] flex-col gap-3 overflow-y-auto py-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] sm:max-h-[calc(100dvh-5rem)]">
             {navigationItems.map((item) => (
               <NavLink
                 key={item.path}
@@ -58,8 +67,8 @@ export const Header = () => {
                 {item.label}
               </NavLink>
             ))}
-            <Button className="w-full justify-center" href={createOrderMailto()} variant="accent">
-              Заказать услугу
+            <Button className="justify-center" href={createOrderMailto()} variant="accent" wrapperClassName="w-full">
+              Р—Р°РєР°Р·Р°С‚СЊ СѓСЃР»СѓРіСѓ
             </Button>
           </div>
         </div>
