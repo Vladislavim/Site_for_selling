@@ -1,0 +1,19 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#05060A"/>
+  <circle cx="234" cy="141" r="240" fill="#84F1D0" fill-opacity="0.17"/>
+  <circle cx="938" cy="116" r="210" fill="#F38D78" fill-opacity="0.15"/>
+  <circle cx="900" cy="538" r="280" fill="#D7B27B" fill-opacity="0.17"/>
+  <rect x="76" y="80" width="1048" height="470" rx="36" fill="white" fill-opacity="0.05" stroke="white" stroke-opacity="0.08"/>
+  <text x="92" y="200" fill="#F4EFE6" font-family="Arial, sans-serif" font-size="68" font-weight="700">
+    Разработка сайтов, которые хотят заказать
+  </text>
+  <text x="92" y="292" fill="#B2BDC9" font-family="Arial, sans-serif" font-size="32">
+    Лендинги, React-сайты, анимации, редизайн и premium подача для бизнеса
+  </text>
+  <text x="92" y="458" fill="#D7B27B" font-family="Arial, sans-serif" font-size="26">
+    exestination@yandex.ru
+  </text>
+  <text x="92" y="500" fill="#84F1D0" font-family="Arial, sans-serif" font-size="26">
+    Exestination Studio
+  </text>
+</svg>

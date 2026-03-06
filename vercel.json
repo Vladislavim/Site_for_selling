@@ -1,0 +1,43 @@
+{
+  "buildCommand": "npm run build",
+  "framework": "vite",
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "headers": [
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), geolocation=(), microphone=()"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "off"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ],
+      "source": "/(.*)"
+    }
+  ],
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "destination": "/index.html",
+      "source": "/(.*)"
+    }
+  ]
+}
