@@ -231,6 +231,7 @@ export const semanticCore = [
       { label: 'Контакты', path: '/contact' },
     ],
     contentOutline: [
+      { id: 'recent-projects', label: 'Последние проекты' },
       { id: 'worlds-grid', label: 'Галерея миров' },
       { id: 'portfolio-value', label: 'Что показывают примеры' },
       { id: 'portfolio-cta', label: 'Обсудить проект' },

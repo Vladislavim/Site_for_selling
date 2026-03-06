@@ -19,6 +19,7 @@ import { TemplateAdvantageSection } from '@/sections/home/TemplateAdvantageSecti
 import { TrustStripSection } from '@/sections/home/TrustStripSection'
 import { WhyChooseSection } from '@/sections/home/WhyChooseSection'
 import { AfterContactSection } from '@/sections/shared/AfterContactSection'
+import { RecentProjectsShowcaseSection } from '@/sections/shared/RecentProjectsShowcaseSection'
 import { StackSection } from '@/sections/shared/StackSection'
 
 const homeEntry = getSemanticEntry('home')
@@ -49,6 +50,7 @@ export const HomePage = () => (
     <SiteTypesSection />
     <MotionLabSection />
     <SeoConversionSection />
+    <RecentProjectsShowcaseSection id="recent-projects-home" mode="compact" tone="ice" />
     <PortfolioPreviewSection />
     <ProcessSection />
     <PricingTeaserSection />

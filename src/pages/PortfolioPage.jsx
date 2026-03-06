@@ -6,6 +6,7 @@ import { Seo } from '@/components/Seo'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getSemanticEntry } from '@/data/semanticCore'
 import { buildBreadcrumbSchema } from '@/seo/config'
+import { RecentProjectsShowcaseSection } from '@/sections/shared/RecentProjectsShowcaseSection'
 import { PortfolioGridSection } from '@/sections/shared/PortfolioGridSection'
 import { Button } from '@/ui/Button'
 import { Container } from '@/ui/Container'
@@ -43,11 +44,12 @@ export const PortfolioPage = () => (
     />
     <PageHero
       chips={['Premium landing', 'Dark tech', 'Animated promo', 'Corporate world']}
-      description="Портфолио здесь работает как карта визуальных миров: оно помогает понять диапазон подачи, глубину интерфейса и то, как сайт может продавать уровень еще до первого контакта."
+      description="Портфолио здесь работает в двух режимах: сначала как витрина последних реальных проектов, затем как карта visual-направлений и подходов, на которые можно опереться в будущем сайте."
       eyebrow="Портфолио / примеры"
       navItems={semanticEntry.contentOutline.map((item) => ({ id: item.id, label: item.label }))}
       title={semanticEntry.h1}
     />
+    <RecentProjectsShowcaseSection id="recent-projects" mode="full" tone="mint" />
     <PortfolioGridSection
       description="Каждый концепт показывает, как можно связать подачу, структуру, motion и lead capture в единый коммерческий сценарий."
       id="worlds-grid"
