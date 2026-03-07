@@ -22,33 +22,33 @@ export const SceneSection = ({ className, id, tone = 'mint', children, ...props 
 
   return (
     <section ref={ref} className={cn('scene-section zone-shell relative isolate overflow-hidden', className)} id={id} {...props}>
-      <div className={cn('scene-fragment pointer-events-none absolute -left-16 top-14 h-44 w-44 rounded-full bg-gradient-to-br blur-3xl', palette.glow)} data-depth="far" />
+      <div className={cn('scene-fragment pointer-events-none absolute -left-16 top-14 hidden h-44 w-44 rounded-full bg-gradient-to-br blur-3xl sm:block', palette.glow)} data-depth="far" />
       <div
         className={cn(
-          'scene-fragment pointer-events-none absolute -right-16 bottom-10 h-56 w-56 rounded-full bg-gradient-to-br blur-3xl opacity-70',
+          'scene-fragment pointer-events-none absolute -right-16 bottom-10 hidden h-56 w-56 rounded-full bg-gradient-to-br blur-3xl opacity-70 sm:block',
           palette.glow,
         )}
         data-depth="mid"
       />
       <div
-        className="scene-fragment pointer-events-none absolute left-[12%] top-[18%] h-32 w-32 rounded-full border border-white/8 opacity-35"
+        className="scene-fragment pointer-events-none absolute left-[12%] top-[18%] hidden h-32 w-32 rounded-full border border-white/8 opacity-35 sm:block"
         data-depth="far"
       />
       <div
-        className="scene-fragment pointer-events-none absolute right-[10%] top-[22%] h-28 w-28 rounded-full border border-white/10 opacity-30"
+        className="scene-fragment pointer-events-none absolute right-[10%] top-[22%] hidden h-28 w-28 rounded-full border border-white/10 opacity-30 sm:block"
         data-depth="near"
       />
-      <div className={cn('scene-divider-line pointer-events-none absolute inset-x-[7%] top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent')} />
+      <div className={cn('scene-divider-line pointer-events-none absolute inset-x-[7%] top-0 hidden h-px bg-gradient-to-r from-transparent via-white/20 to-transparent sm:block')} />
       <div
         className={cn(
-          'scene-divider-line pointer-events-none absolute left-[8%] top-[18%] h-48 w-px bg-gradient-to-b opacity-50',
+          'scene-divider-line pointer-events-none absolute left-[8%] top-[18%] hidden h-48 w-px bg-gradient-to-b opacity-50 sm:block',
           palette.beam,
         )}
         data-depth="near"
       />
       <div
         className={cn(
-          'scene-divider-line pointer-events-none absolute right-[10%] top-[28%] h-40 w-px bg-gradient-to-b opacity-30',
+          'scene-divider-line pointer-events-none absolute right-[10%] top-[28%] hidden h-40 w-px bg-gradient-to-b opacity-30 sm:block',
           palette.beam,
         )}
         data-depth="mid"

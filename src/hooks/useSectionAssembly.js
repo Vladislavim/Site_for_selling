@@ -8,7 +8,11 @@ export const useSectionAssembly = () => {
   useLayoutEffect(() => {
     const root = ref.current
 
-    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches
+    const mobileLike = coarsePointer || window.innerWidth < 960
+
+    if (!root || reducedMotion || mobileLike) {
       return undefined
     }
 
