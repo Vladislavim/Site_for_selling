@@ -1,8 +1,8 @@
 import crypto from 'node:crypto'
 
 import { leadFormSchema } from '../src/utils/leadSchema.js'
-import { deliverLead } from './leadDelivery.js'
 import { isSmtpEnabled, serverConfig } from './config.js'
+import { deliverLead } from './leadDelivery.js'
 
 const submissions = new Map()
 
@@ -34,7 +34,6 @@ const checkRateLimit = (ip) => {
 
   if (freshBucket.length >= serverConfig.rateLimitMax) {
     submissions.set(safeIp, freshBucket)
-
     return false
   }
 
@@ -72,7 +71,7 @@ export const buildLeadResponse = async ({ body, headers, ip, isJson }) => {
   if (!isJson) {
     return {
       payload: {
-        message: 'Сервер принимает только JSON payload.',
+        message: '\u0421\u0435\u0440\u0432\u0435\u0440 \u043f\u0440\u0438\u043d\u0438\u043c\u0430\u0435\u0442 \u0442\u043e\u043b\u044c\u043a\u043e JSON payload.',
         ok: false,
         requestId,
       },
@@ -83,7 +82,8 @@ export const buildLeadResponse = async ({ body, headers, ip, isJson }) => {
   if (!checkRateLimit(ip)) {
     return {
       payload: {
-        message: 'Слишком много заявок с этого адреса. Подождите немного и попробуйте снова.',
+        message:
+          '\u0421\u043b\u0438\u0448\u043a\u043e\u043c \u043c\u043d\u043e\u0433\u043e \u0437\u0430\u044f\u0432\u043e\u043a \u0441 \u044d\u0442\u043e\u0433\u043e \u0430\u0434\u0440\u0435\u0441\u0430. \u041f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 \u043d\u0435\u043c\u043d\u043e\u0433\u043e \u0438 \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0441\u043d\u043e\u0432\u0430.',
         ok: false,
         requestId,
       },
@@ -97,7 +97,8 @@ export const buildLeadResponse = async ({ body, headers, ip, isJson }) => {
     return {
       payload: {
         fields: parsed.error.flatten().fieldErrors,
-        message: 'Проверьте поля формы и повторите отправку.',
+        message:
+          '\u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u043f\u043e\u043b\u044f \u0444\u043e\u0440\u043c\u044b \u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0443.',
         ok: false,
         requestId,
       },
@@ -110,7 +111,7 @@ export const buildLeadResponse = async ({ body, headers, ip, isJson }) => {
   if (lead.website) {
     return {
       payload: {
-        message: 'Заявка принята.',
+        message: '\u0417\u0430\u044f\u0432\u043a\u0430 \u043f\u0440\u0438\u043d\u044f\u0442\u0430.',
         ok: true,
         requestId,
       },
@@ -121,7 +122,8 @@ export const buildLeadResponse = async ({ body, headers, ip, isJson }) => {
   if (lead.startedAt && Date.now() - lead.startedAt < 2500) {
     return {
       payload: {
-        message: 'Отправка выглядит подозрительно быстро. Обновите страницу и попробуйте снова.',
+        message:
+          '\u041e\u0442\u043f\u0440\u0430\u0432\u043a\u0430 \u0432\u044b\u0433\u043b\u044f\u0434\u0438\u0442 \u043f\u043e\u0434\u043e\u0437\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0431\u044b\u0441\u0442\u0440\u043e. \u041e\u0431\u043d\u043e\u0432\u0438\u0442\u0435 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443 \u0438 \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0441\u043d\u043e\u0432\u0430.',
         ok: false,
         requestId,
       },
@@ -151,7 +153,8 @@ export const buildLeadResponse = async ({ body, headers, ip, isJson }) => {
 
     return {
       payload: {
-        message: 'Не удалось принять заявку на сервере. Проверьте SMTP и повторите попытку.',
+        message:
+          '\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u044c \u0437\u0430\u044f\u0432\u043a\u0443 \u043d\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435. \u041f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 SMTP \u0438 \u043f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u043f\u043e\u043f\u044b\u0442\u043a\u0443.',
         ok: false,
         requestId,
       },

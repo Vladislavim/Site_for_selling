@@ -17,24 +17,27 @@ const escapeHtml = (value) =>
 
 const toHeaderSafe = (value) => String(value || '').replace(/[\r\n]+/g, ' ').trim()
 
+const FALLBACK_MISSING = '\u041d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u043e'
+const FALLBACK_UNKNOWN = '\u041d\u0435 \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d'
+
 const buildLeadEntries = (lead, meta) => [
-  ['Имя', lead.name],
-  ['Способ связи', lead.contactMethod],
-  ['Контакт', lead.contactValue],
-  ['Компания / ниша', lead.company],
-  ['Услуга', lead.serviceType],
-  ['Бюджет', lead.budget],
-  ['Срок', lead.deadline],
-  ['Нужны анимации', lead.needAnimations],
-  ['Нужны SEO-страницы', lead.needSeoPages],
-  ['Нужен уникальный дизайн', lead.needUniqueDesign],
-  ['Референсы', lead.references || 'Не указаны'],
-  ['Описание проекта', lead.projectDescription],
-  ['Страница отправки', lead.pagePath || meta.pagePath || 'Не указана'],
+  ['\u0418\u043c\u044f', lead.name],
+  ['\u0421\u043f\u043e\u0441\u043e\u0431 \u0441\u0432\u044f\u0437\u0438', lead.contactMethod],
+  ['\u041a\u043e\u043d\u0442\u0430\u043a\u0442', lead.contactValue],
+  ['\u041a\u043e\u043c\u043f\u0430\u043d\u0438\u044f / \u043d\u0438\u0448\u0430', lead.company],
+  ['\u0423\u0441\u043b\u0443\u0433\u0430', lead.serviceType],
+  ['\u0411\u044e\u0434\u0436\u0435\u0442', lead.budget],
+  ['\u0421\u0440\u043e\u043a', lead.deadline],
+  ['\u041d\u0443\u0436\u043d\u044b \u0430\u043d\u0438\u043c\u0430\u0446\u0438\u0438', lead.needAnimations],
+  ['\u041d\u0443\u0436\u043d\u044b SEO-\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b', lead.needSeoPages],
+  ['\u041d\u0443\u0436\u0435\u043d \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0437\u0430\u0439\u043d', lead.needUniqueDesign],
+  ['\u0420\u0435\u0444\u0435\u0440\u0435\u043d\u0441\u044b', lead.references || FALLBACK_MISSING],
+  ['\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430', lead.projectDescription],
+  ['\u0421\u0442\u0440\u0430\u043d\u0438\u0446\u0430 \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0438', lead.pagePath || meta.pagePath || FALLBACK_MISSING],
   ['Request ID', meta.requestId],
-  ['Origin', meta.origin || 'Нет'],
-  ['IP', meta.ip || 'Не определен'],
-  ['User-Agent', meta.userAgent || 'Не определен'],
+  ['Origin', meta.origin || '\u041d\u0435\u0442'],
+  ['IP', meta.ip || FALLBACK_UNKNOWN],
+  ['User-Agent', meta.userAgent || FALLBACK_UNKNOWN],
 ]
 
 const buildTextBody = (lead, meta) =>
@@ -60,7 +63,7 @@ const buildHtmlBody = (lead, meta) => {
     <div style="max-width:760px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #dbe3f0;">
       <div style="padding:20px 24px;background:linear-gradient(120deg,#f8fafc,#dbeafe,#ecfeff);">
         <div style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:#475569;">Exestination Lead</div>
-        <h1 style="margin:10px 0 0;font-size:28px;line-height:1.1;">Новая заявка на ${escapeHtml(lead.serviceType)}</h1>
+        <h1 style="margin:10px 0 0;font-size:28px;line-height:1.1;">\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430 \u043d\u0430 ${escapeHtml(lead.serviceType)}</h1>
       </div>
       <div style="padding:24px;">
         <table style="width:100%;border-collapse:collapse;">${rows}</table>
@@ -117,26 +120,30 @@ export const deliverLead = async (lead, meta) => {
 
     return {
       channel: 'file',
-      message: 'Локальный режим: заявка сохранена в server/data/leads.log. Для реальных уведомлений подключите SMTP или другой backend delivery.',
+      message:
+        '\u041b\u043e\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c: \u0437\u0430\u044f\u0432\u043a\u0430 \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u0430 \u0432 server/data/leads.log. \u0414\u043b\u044f \u0440\u0435\u0430\u043b\u044c\u043d\u044b\u0445 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u0439 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u0435 SMTP \u0438\u043b\u0438 \u0434\u0440\u0443\u0433\u043e\u0439 backend delivery.',
     }
   }
 
-  const subject = `Новая заявка: ${toHeaderSafe(lead.serviceType)} / ${toHeaderSafe(lead.name)}`
-  const replyTo = lead.contactMethod === 'Email' ? lead.contactValue : undefined
+  const subject = `\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430: ${toHeaderSafe(lead.serviceType)} / ${toHeaderSafe(lead.name)}`
+  const replyTo = lead.contactMethod.trim().toLowerCase() === 'email' ? lead.contactValue : undefined
 
   await transporter.sendMail({
-    encoding: 'base64',
     from: serverConfig.smtp.from,
+    headers: {
+      'Content-Language': 'ru',
+      'X-Entity-Ref-ID': meta.requestId,
+    },
     html: buildHtmlBody(lead, meta),
     replyTo,
     subject,
     text: buildTextBody(lead, meta),
-    textEncoding: 'base64',
     to: serverConfig.leadToEmail,
   })
 
   return {
     channel: 'smtp',
-    message: 'Заявка отправлена. Я отвечу с понятным next step в ближайшее время.',
+    message:
+      '\u0417\u0430\u044f\u0432\u043a\u0430 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0430. \u042f \u043e\u0442\u0432\u0435\u0447\u0443 \u0441 \u043f\u043e\u043d\u044f\u0442\u043d\u044b\u043c next step \u0432 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043c\u044f.',
   }
 }

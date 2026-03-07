@@ -1,7 +1,7 @@
 import cors from 'cors'
 import express from 'express'
-import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
+import helmet from 'helmet'
 
 import { isRequestOriginAllowed, serverConfig } from './config.js'
 import { buildHealthResponse, buildLeadResponse } from './leadApi.js'
@@ -14,7 +14,7 @@ app.set('trust proxy', serverConfig.requestTrustProxy)
 
 const corsOptionsDelegate = (request, callback) => {
   const origin = request.header('Origin')
-  const allowed = isRequestOriginAllowed(origin, request)
+  const allowed = !origin || origin === 'null' || isRequestOriginAllowed(origin, request)
 
   callback(allowed ? null : new Error('Origin is not allowed by policy.'), {
     credentials: false,
@@ -66,7 +66,7 @@ app.post('/api/leads', async (request, response) => {
 app.use((error, _request, response, _next) => {
   if (error instanceof Error && error.message === 'Origin is not allowed by policy.') {
     response.status(403).json({
-      message: 'Этот origin не разрешен для API.',
+      message: '\u042d\u0442\u043e\u0442 origin \u043d\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d \u0434\u043b\u044f API.',
       ok: false,
     })
     return
@@ -74,7 +74,7 @@ app.use((error, _request, response, _next) => {
 
   console.error('[lead-api] unexpected error', error)
   response.status(500).json({
-    message: 'Внутренняя ошибка API.',
+    message: '\u0412\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u044f\u044f \u043e\u0448\u0438\u0431\u043a\u0430 API.',
     ok: false,
   })
 })

@@ -2,9 +2,10 @@ import { isRequestOriginAllowed } from '../server/config.js'
 
 const setCorsHeaders = (request, response) => {
   const origin = request.headers.origin || ''
+  const allowOrigin = !origin || origin === 'null' ? '*' : origin
 
-  if (origin && isRequestOriginAllowed(origin, request)) {
-    response.setHeader('Access-Control-Allow-Origin', origin)
+  if (!origin || origin === 'null' || isRequestOriginAllowed(origin, request)) {
+    response.setHeader('Access-Control-Allow-Origin', allowOrigin)
     response.setHeader('Vary', 'Origin')
   }
 
@@ -20,13 +21,13 @@ export const handleOptions = (request, response) => {
 export const rejectOrigin = (request, response) => {
   const origin = request.headers.origin || ''
 
-  if (!origin || isRequestOriginAllowed(origin, request)) {
+  if (!origin || origin === 'null' || isRequestOriginAllowed(origin, request)) {
     setCorsHeaders(request, response)
     return false
   }
 
   response.status(403).json({
-    message: 'Этот origin не разрешен для API.',
+    message: '\u042d\u0442\u043e\u0442 origin \u043d\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d \u0434\u043b\u044f API.',
     ok: false,
   })
 

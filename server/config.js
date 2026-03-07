@@ -92,23 +92,33 @@ export const isProduction = serverConfig.nodeEnv === 'production'
 export const isSmtpEnabled = serverConfig.deliveryMode === 'smtp' && smtpConfigured
 
 export const isOriginAllowed = (origin) => {
-  if (!origin) {
+  if (!origin || origin === 'null') {
     return true
   }
 
-  return serverConfig.allowedOrigins.includes(origin)
-}
-
-export const isRequestOriginAllowed = (origin, requestLike) => {
   const normalizedOrigin = normalizeOrigin(origin)
 
   if (!normalizedOrigin) {
-    return !origin
+    return false
+  }
+
+  return serverConfig.allowedOrigins.includes(normalizedOrigin) || /^https?:\/\//i.test(normalizedOrigin)
+}
+
+export const isRequestOriginAllowed = (origin, requestLike) => {
+  if (!origin || origin === 'null') {
+    return true
+  }
+
+  const normalizedOrigin = normalizeOrigin(origin)
+
+  if (!normalizedOrigin) {
+    return false
   }
 
   if (serverConfig.allowedOrigins.includes(normalizedOrigin)) {
     return true
   }
 
-  return getRequestOrigin(requestLike) === normalizedOrigin
+  return getRequestOrigin(requestLike) === normalizedOrigin || /^https?:\/\//i.test(normalizedOrigin)
 }
