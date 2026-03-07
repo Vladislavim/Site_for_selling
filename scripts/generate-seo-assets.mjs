@@ -41,7 +41,7 @@ Sitemap: ${new URL('/sitemap.xml', baseUrl).toString()}
 const formatSitemap = (baseUrl) => {
   const seen = new Set()
   const urls = semanticCore
-    .map((entry) => entry.path)
+    .map((entry) => entry.canonicalPath || entry.path)
     .filter((route) => {
       if (!route || seen.has(route)) {
         return false

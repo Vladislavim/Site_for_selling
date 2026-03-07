@@ -200,6 +200,99 @@
   .scene-fragment {
     will-change: transform, opacity;
   }
+
+  .orbital-command-stage {
+    isolation: isolate;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+
+  .orbital-command-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-position: center;
+    background-size: 72px 72px;
+    mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.95) 24%, transparent 82%);
+    opacity: 0.24;
+  }
+
+  .orbital-command-grid::before,
+  .orbital-command-grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .orbital-command-grid::before {
+    background:
+      radial-gradient(circle at center, rgba(255,255,255,0.08) 0, transparent 44%),
+      radial-gradient(circle at 30% 32%, rgba(140,242,211,0.08), transparent 22%),
+      radial-gradient(circle at 72% 62%, rgba(255,142,114,0.08), transparent 24%);
+    opacity: 0.8;
+  }
+
+  .orbital-command-grid::after {
+    inset: 6% 12%;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.05);
+    filter: blur(0.5px);
+  }
+
+  .orbital-ring {
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.02),
+      0 0 40px rgba(136,191,255,0.06);
+  }
+
+  .orbital-ring::before {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    border-radius: inherit;
+    border: 1px dashed rgba(255,255,255,0.09);
+    opacity: 0.62;
+  }
+
+  .orbital-node {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.03),
+      0 14px 40px rgba(0,0,0,0.28);
+  }
+
+  .orbital-core {
+    cursor: grab;
+    transform-style: preserve-3d;
+  }
+
+  .orbital-core:active {
+    cursor: grabbing;
+  }
+
+  .orbital-core::before {
+    content: '';
+    position: absolute;
+    inset: -16%;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at center, rgba(140,242,211,0.12), transparent 54%),
+      radial-gradient(circle at center, rgba(136,191,255,0.18), transparent 72%);
+    filter: blur(16px);
+    opacity: 0.85;
+  }
+
+  .orbital-core::after {
+    content: '';
+    position: absolute;
+    inset: -4%;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04),
+      inset 0 0 22px rgba(255,255,255,0.06);
+  }
 }
 
 @layer utilities {
@@ -250,6 +343,11 @@
   .keyword-chip {
     max-width: 100%;
     white-space: normal;
+  }
+
+  .orbital-command-grid {
+    background-size: 48px 48px;
+    opacity: 0.2;
   }
 
   ::-webkit-scrollbar {

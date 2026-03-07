@@ -6,6 +6,7 @@ import { PageHero } from '@/components/PageHero'
 import { SceneSection } from '@/components/SceneSection'
 import { Seo } from '@/components/Seo'
 import { SectionHeading } from '@/components/SectionHeading'
+import { TelegramContactActions } from '@/components/TelegramContactActions'
 import { contactFaqs } from '@/data/siteContent'
 import { getSemanticEntry } from '@/data/semanticCore'
 import { services } from '@/data/services'
@@ -21,6 +22,7 @@ const semanticEntry = getSemanticEntry('contact')
 export const ContactPage = () => (
   <>
     <Seo
+      canonicalPath={semanticEntry.canonicalPath}
       description={semanticEntry.metaDescription}
       jsonLd={[
         buildFaqSchema(contactFaqs),
@@ -29,6 +31,8 @@ export const ContactPage = () => (
           { name: 'Контакты', path: '/contact' },
         ]),
       ]}
+      ogDescription={semanticEntry.openGraphDescription}
+      ogTitle={semanticEntry.openGraphTitle}
       path={semanticEntry.path}
       title={semanticEntry.title}
     />
@@ -64,7 +68,7 @@ export const ContactPage = () => (
               </div>
               <div className="mt-6 flex flex-col gap-3">
                 <Button className="w-full justify-center" href={createOrderMailto(service.mailtoKey)} variant="accent">
-                  Заказать {service.name.toLowerCase()}
+                  Заказать {service.nameInline ?? service.name.toLowerCase()}
                 </Button>
                 <Button className="w-full justify-center" to={`/services/${service.slug}`} variant="secondary">
                   Открыть страницу услуги
@@ -80,23 +84,26 @@ export const ContactPage = () => (
         <GlassPanel className="p-6 sm:p-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-mist">Direct email</p>
-              <h2 className="mt-4 text-3xl font-extrabold text-pearl">Можно просто написать на почту</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-mist">Direct email / Telegram</p>
+              <h2 className="mt-4 text-3xl font-extrabold text-pearl">Можно написать на почту или сразу открыть Telegram</h2>
               <p className="mt-4 text-base leading-8 text-mist">
-                Если удобнее начать с короткого письма без формы, используйте прямую почту. Это самый быстрый путь,
-                когда у вас уже есть вводные по услуге, срокам и бюджету.
+                Если удобнее начать без формы, используйте прямую почту или Telegram. Это быстрый путь, когда у вас уже
+                есть вводные по услуге, срокам, бюджету и желаемому формату сайта.
               </p>
               <a className="mt-5 inline-block text-lg font-semibold text-sand transition duration-300 hover:text-pearl" href={`mailto:${ORDER_EMAIL}`}>
                 {ORDER_EMAIL}
               </a>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button href={createOrderMailto()} variant="accent">
-                Открыть шаблон письма
-              </Button>
-              <Button to="/pricing" variant="ghost">
-                Сначала посмотреть цены
-              </Button>
+            <div className="flex w-full max-w-xl flex-col gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button href={createOrderMailto()} variant="accent">
+                  Открыть шаблон письма
+                </Button>
+                <Button to="/pricing" variant="ghost">
+                  Сначала посмотреть цены
+                </Button>
+              </div>
+              <TelegramContactActions templateContext="Хочу обсудить разработку сайта. Формат проекта, бюджет и сроки:" />
             </div>
           </div>
         </GlassPanel>

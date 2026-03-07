@@ -1,11 +1,13 @@
+import { FAQAccordion } from '@/components/FAQAccordion'
 import { LeadCaptureCta } from '@/components/LeadCaptureCta'
 import { OrbitNav } from '@/components/OrbitNav'
 import { PageHero } from '@/components/PageHero'
 import { SceneSection } from '@/components/SceneSection'
 import { Seo } from '@/components/Seo'
 import { SectionHeading } from '@/components/SectionHeading'
+import { portfolioFaqs } from '@/data/siteContent'
 import { getSemanticEntry } from '@/data/semanticCore'
-import { buildBreadcrumbSchema } from '@/seo/config'
+import { buildBreadcrumbSchema, buildFaqSchema } from '@/seo/config'
 import { RecentProjectsShowcaseSection } from '@/sections/shared/RecentProjectsShowcaseSection'
 import { PortfolioGridSection } from '@/sections/shared/PortfolioGridSection'
 import { Button } from '@/ui/Button'
@@ -32,13 +34,17 @@ const valueCards = [
 export const PortfolioPage = () => (
   <>
     <Seo
+      canonicalPath={semanticEntry.canonicalPath}
       description={semanticEntry.metaDescription}
       jsonLd={[
+        buildFaqSchema(portfolioFaqs),
         buildBreadcrumbSchema([
           { name: 'Главная', path: '/' },
           { name: 'Портфолио', path: '/portfolio' },
         ]),
       ]}
+      ogDescription={semanticEntry.openGraphDescription}
+      ogTitle={semanticEntry.openGraphTitle}
       path={semanticEntry.path}
       title={semanticEntry.title}
     />
@@ -81,6 +87,16 @@ export const PortfolioPage = () => (
             Обсудить проект
           </Button>
         </div>
+      </Container>
+    </SceneSection>
+    <SceneSection className="py-12" id="portfolio-faq" tone="mint">
+      <Container>
+        <SectionHeading
+          description="Портфолио должно не только нравиться визуально, но и помогать быстро понять, можно ли заказать сайт похожего уровня под вашу нишу, бюджет и задачу."
+          eyebrow="FAQ"
+          title="Вопросы про кейсы, стили и перенос уровня на ваш проект"
+        />
+        <FAQAccordion className="mt-10" items={portfolioFaqs} />
       </Container>
     </SceneSection>
     <SceneSection className="pb-20 pt-8" id="portfolio-cta" tone="coral">

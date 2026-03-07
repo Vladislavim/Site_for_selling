@@ -23,10 +23,12 @@ export const ServicePageTemplate = ({ service }) => {
   const relatedServices = service.related.map((slug) => serviceMap[slug]).filter(Boolean)
   const seoEntry = getSemanticEntryByPath(`/services/${service.slug}`)
   const orbitItems = seoEntry?.contentOutline?.map((item) => ({ id: item.id, label: item.label })) ?? []
+  const serviceNameInline = service.nameInline ?? service.name.toLowerCase()
 
   return (
     <>
       <Seo
+        canonicalPath={seoEntry?.canonicalPath}
         description={seoEntry?.metaDescription ?? service.metaDescription}
         jsonLd={[
           buildServiceSchema({
@@ -41,6 +43,8 @@ export const ServicePageTemplate = ({ service }) => {
             { name: service.name, path: `/services/${service.slug}` },
           ]),
         ]}
+        ogDescription={seoEntry?.openGraphDescription ?? seoEntry?.metaDescription ?? service.metaDescription}
+        ogTitle={seoEntry?.openGraphTitle ?? seoEntry?.title ?? service.pageTitle}
         path={`/services/${service.slug}`}
         title={seoEntry?.title ?? service.pageTitle}
       />
@@ -57,7 +61,8 @@ export const ServicePageTemplate = ({ service }) => {
           <GlassPanel className="px-6 py-6 sm:px-8">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-mist">Keyword cluster</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-mist">Коммерческий фокус страницы</p>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-mist">{seoEntry?.purpose ?? service.shortPitch}</p>
                 <div className="mt-4">
                   <span className="tech-pill">{seoEntry?.primaryKeyword ?? service.name}</span>
                 </div>
@@ -100,12 +105,50 @@ export const ServicePageTemplate = ({ service }) => {
           </GlassPanel>
         </Container>
       </SceneSection>
+      <SceneSection className="py-12" id="template-gap" tone="ice">
+        <Container>
+          <SectionHeading
+            description="Главная ценность здесь не в декоративности, а в том, что структура, визуал и логика сайта собираются под конкретную коммерческую задачу, а не под универсальный шаблон для всех ниш."
+            eyebrow="Почему это лучше шаблона"
+            title={`Почему ${serviceNameInline} стоит делать как отдельный проект, а не брать типовое решение`}
+          />
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {service.templateAdvantages.map((item, index) => (
+              <GlassPanel key={item} className={index === 0 ? 'p-6 lg:col-span-2' : 'p-6'}>
+                <div className="text-sm font-semibold uppercase tracking-[0.22em] text-sand">0{index + 1}</div>
+                <p className="mt-5 text-lg font-semibold leading-8 text-pearl">{item}</p>
+              </GlassPanel>
+            ))}
+          </div>
+        </Container>
+      </SceneSection>
+      <SceneSection className="py-12" id="tech-stack" tone="mint">
+        <Container>
+          <SectionHeading
+            description="Стек важен не как список модных слов, а как причина, почему проект получается быстрее, аккуратнее масштабируется и лучше поддерживает коммерческий сценарий."
+            eyebrow="Технологии и что они дают"
+            title={`Какие технологии усиливают ${serviceNameInline} и почему это важно для результата`}
+          />
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {service.techHighlights.map((item) => (
+              <GlassPanel key={`${item.label}-${item.text}`} className="p-6">
+                <span className="keyword-chip">{item.label}</span>
+                <p className="mt-5 text-lg font-semibold leading-8 text-pearl">{item.text}</p>
+              </GlassPanel>
+            ))}
+          </div>
+          <GlassPanel className="mt-5 p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-mist">SEO и коммерческая архитектура</p>
+            <p className="mt-4 max-w-4xl text-base leading-8 text-pearl/86">{service.seoBenefit}</p>
+          </GlassPanel>
+        </Container>
+      </SceneSection>
       <SceneSection className="py-12" id="value-engine" tone="coral">
         <Container>
           <SectionHeading
             description="Не просто красивый интерфейс, а конкретные причины, почему эта услуга повышает доверие, воспринимаемую цену и вероятность заявки."
             eyebrow="Почему это стоит денег"
-            title={`Что получает клиент, когда заказывает ${service.name.toLowerCase()}`}
+            title={`Что получает клиент, когда заказывает ${serviceNameInline}`}
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {service.valuePoints.map((item, index) => (
@@ -156,7 +199,7 @@ export const ServicePageTemplate = ({ service }) => {
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href={createOrderMailto(service.mailtoKey)} variant="accent">
-              Заказать {service.name.toLowerCase()}
+              Заказать {serviceNameInline}
             </Button>
             <Button to="/contact#lead-form" variant="secondary">
               Оставить подробную заявку
@@ -169,7 +212,7 @@ export const ServicePageTemplate = ({ service }) => {
           <SectionHeading
             description="Частые вопросы, которые обычно влияют на решение заказать именно этот тип сайта."
             eyebrow="FAQ"
-            title={`Вопросы про ${service.name.toLowerCase()}`}
+            title={`Вопросы про ${serviceNameInline}`}
           />
           <FAQAccordion className="mt-10" items={service.faq} />
         </Container>
@@ -217,7 +260,7 @@ export const ServicePageTemplate = ({ service }) => {
           <LeadForm
             defaultService={service.name}
             id="lead-form"
-            title={`Оставить заявку на ${service.name.toLowerCase()}`}
+            title={`Оставить заявку на ${serviceNameInline}`}
             description="Если удобнее не писать письмо вручную, оставьте задачу здесь. Я отвечу с понятной логикой старта, сроками и стартовой оценкой проекта."
           />
         </Container>

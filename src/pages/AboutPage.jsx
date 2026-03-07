@@ -1,12 +1,13 @@
+import { FAQAccordion } from '@/components/FAQAccordion'
 import { LeadCaptureCta } from '@/components/LeadCaptureCta'
 import { OrbitNav } from '@/components/OrbitNav'
 import { PageHero } from '@/components/PageHero'
 import { SceneSection } from '@/components/SceneSection'
 import { Seo } from '@/components/Seo'
 import { SectionHeading } from '@/components/SectionHeading'
-import { afterContactSteps, processSteps } from '@/data/siteContent'
+import { afterContactSteps, processFaqs, processSteps } from '@/data/siteContent'
 import { getSemanticEntry } from '@/data/semanticCore'
-import { buildBreadcrumbSchema } from '@/seo/config'
+import { buildBreadcrumbSchema, buildFaqSchema } from '@/seo/config'
 import { AfterContactSection } from '@/sections/shared/AfterContactSection'
 import { StackSection } from '@/sections/shared/StackSection'
 import { Container } from '@/ui/Container'
@@ -36,13 +37,17 @@ const principles = [
 export const AboutPage = () => (
   <>
     <Seo
+      canonicalPath={semanticEntry.canonicalPath}
       description={semanticEntry.metaDescription}
       jsonLd={[
+        buildFaqSchema(processFaqs),
         buildBreadcrumbSchema([
           { name: 'Главная', path: '/' },
           { name: 'Процесс', path: '/about' },
         ]),
       ]}
+      ogDescription={semanticEntry.openGraphDescription}
+      ogTitle={semanticEntry.openGraphTitle}
       path={semanticEntry.path}
       title={semanticEntry.title}
     />
@@ -117,6 +122,16 @@ export const AboutPage = () => (
             </GlassPanel>
           ))}
         </div>
+      </Container>
+    </SceneSection>
+    <SceneSection className="py-12" id="process-faq" tone="ice">
+      <Container>
+        <SectionHeading
+          description="Ниже ответы на вопросы, которые чаще всего тормозят старт проекта: как быстро можно выйти в работу, нужно ли длинное ТЗ и как вообще устроен процесс без агентской бюрократии."
+          eyebrow="FAQ"
+          title="Вопросы про процесс, старт и рабочий ритм проекта"
+        />
+        <FAQAccordion className="mt-10" items={processFaqs} />
       </Container>
     </SceneSection>
     <SceneSection className="pb-20 pt-8" id="about-cta" tone="mint">

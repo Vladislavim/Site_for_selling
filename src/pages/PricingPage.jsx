@@ -37,6 +37,7 @@ const priceFactors = [
 export const PricingPage = () => (
   <>
     <Seo
+      canonicalPath={semanticEntry.canonicalPath}
       description={semanticEntry.metaDescription}
       jsonLd={[
         buildFaqSchema(pricingFaqs),
@@ -45,6 +46,8 @@ export const PricingPage = () => (
           { name: 'Цены', path: '/pricing' },
         ]),
       ]}
+      ogDescription={semanticEntry.openGraphDescription}
+      ogTitle={semanticEntry.openGraphTitle}
       path={semanticEntry.path}
       title={semanticEntry.title}
     />

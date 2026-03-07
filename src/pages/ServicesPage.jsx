@@ -7,7 +7,7 @@ import { SceneSection } from '@/components/SceneSection'
 import { Seo } from '@/components/Seo'
 import { SectionHeading } from '@/components/SectionHeading'
 import { ServiceCard } from '@/components/ServiceCard'
-import { homeFaqs } from '@/data/siteContent'
+import { servicesFaqs } from '@/data/siteContent'
 import { getSemanticEntry } from '@/data/semanticCore'
 import { services } from '@/data/services'
 import { buildBreadcrumbSchema, buildFaqSchema } from '@/seo/config'
@@ -36,11 +36,11 @@ const selectionCards = [
     text: 'Выбор для promo-подачи, launch-сценариев и брендов, где motion усиливает восприятие качества и помогает удерживать внимание.',
   },
   {
-    title: 'Уникальный проект',
+    title: 'Уникальный сайт',
     text: 'Нужен, когда шаблонный агентский визуал уже не соответствует цене продукта, бренду или амбиции digital-образа.',
   },
   {
-    title: 'Редизайн',
+    title: 'Редизайн сайта',
     text: 'Подходит, если текущий сайт морально устарел, мешает продавать или просто визуально тянет восприятие бизнеса вниз.',
   },
 ]
@@ -48,14 +48,17 @@ const selectionCards = [
 export const ServicesPage = () => (
   <>
     <Seo
+      canonicalPath={semanticEntry.canonicalPath}
       description={semanticEntry.metaDescription}
       jsonLd={[
-        buildFaqSchema(homeFaqs.slice(0, 4)),
+        buildFaqSchema(servicesFaqs),
         buildBreadcrumbSchema([
           { name: 'Главная', path: '/' },
           { name: 'Услуги', path: '/services' },
         ]),
       ]}
+      ogDescription={semanticEntry.openGraphDescription}
+      ogTitle={semanticEntry.openGraphTitle}
       path={semanticEntry.path}
       title={semanticEntry.title}
     />
@@ -115,14 +118,14 @@ export const ServicesPage = () => (
         />
       </Container>
     </SceneSection>
-    <SceneSection className="py-12" tone="mint">
+    <SceneSection className="py-12" id="services-faq" tone="mint">
       <Container>
         <SectionHeading
-          description="Это короткий FAQ по выбору формата, срокам, SEO-логике и старту работ. Нужен, чтобы снять последние сомнения до заявки."
+          description="Этот FAQ закрывает типовые коммерческие вопросы: как выбрать формат, с чего стартовать, когда нужен React, как работает SEO-структура и стоит ли заказывать сайт под ключ без длинного ТЗ."
           eyebrow="FAQ"
           title="Частые вопросы по услугам"
         />
-        <FAQAccordion className="mt-10" items={homeFaqs} />
+        <FAQAccordion className="mt-10" items={servicesFaqs} />
         <div className="mt-8 flex flex-wrap gap-3">
           <Button to="/pricing" variant="secondary">
             Посмотреть цены

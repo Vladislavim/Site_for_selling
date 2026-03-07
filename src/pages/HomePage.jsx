@@ -27,6 +27,7 @@ const homeEntry = getSemanticEntry('home')
 export const HomePage = () => (
   <>
     <Seo
+      canonicalPath={homeEntry.canonicalPath}
       description={homeEntry.metaDescription}
       jsonLd={[
         buildServiceSchema({
@@ -36,6 +37,8 @@ export const HomePage = () => (
         }),
         buildFaqSchema(homeFaqs),
       ]}
+      ogDescription={homeEntry.openGraphDescription}
+      ogTitle={homeEntry.openGraphTitle}
       path={homeEntry.path}
       title={homeEntry.title}
     />
