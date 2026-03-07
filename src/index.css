@@ -207,6 +207,37 @@
     transform-style: preserve-3d;
   }
 
+  .hero-chip-grid {
+    position: relative;
+  }
+
+  .hero-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.2);
+    color: rgba(246,241,232,0.82);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.67rem;
+    font-weight: 700;
+    backdrop-filter: blur(18px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .hero-chip-accent {
+    border-color: rgba(140,242,211,0.24);
+    background: linear-gradient(135deg, rgba(140,242,211,0.16), rgba(136,191,255,0.12));
+    color: #8cf2d3;
+    box-shadow:
+      0 0 0 1px rgba(140,242,211,0.08),
+      0 12px 36px rgba(136,191,255,0.1);
+  }
+
   .orbital-command-grid {
     background-image:
       linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
@@ -260,6 +291,13 @@
     box-shadow:
       0 0 0 1px rgba(255,255,255,0.03),
       0 14px 40px rgba(0,0,0,0.28);
+  }
+
+  .hero-metric-card,
+  .hero-signal-card {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04),
+      0 18px 48px rgba(0,0,0,0.24);
   }
 
   .orbital-core {
@@ -345,9 +383,48 @@
     white-space: normal;
   }
 
+  .hero-chip {
+    min-height: 2.5rem;
+    border-radius: 1rem;
+    padding: 0.68rem 0.88rem;
+    letter-spacing: 0.12em;
+    font-size: 0.61rem;
+    justify-content: flex-start;
+  }
+
   .orbital-command-grid {
     background-size: 48px 48px;
     opacity: 0.2;
+  }
+
+  .orbital-command-stage {
+    perspective: none;
+    transform-style: flat;
+  }
+
+  .orbital-ring {
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.02),
+      0 0 18px rgba(136,191,255,0.04);
+  }
+
+  .orbital-node {
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.02),
+      0 10px 24px rgba(0,0,0,0.22);
+  }
+
+  .orbital-core::before {
+    inset: -10%;
+    filter: blur(10px);
+  }
+
+  .hero-metric-card {
+    min-height: 6.15rem;
+  }
+
+  .hero-signal-card {
+    border-radius: 1.5rem;
   }
 
   ::-webkit-scrollbar {

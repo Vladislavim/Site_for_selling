@@ -106,12 +106,19 @@ export const HeroSection = () => {
 
           <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
             {signalCards.map((card) => (
-              <GlassPanel key={card.title} className="p-4 sm:p-5">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/8 text-mint">
-                  <card.icon className="h-5 w-5" />
+              <GlassPanel key={card.title} className="hero-signal-card p-4 sm:p-5">
+                <div className="flex items-start gap-4 md:block">
+                  <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/8 text-mint">
+                    <card.icon className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-mist sm:text-[11px]">
+                      Signal
+                    </div>
+                    <div className="mt-2 text-lg font-black text-pearl">{card.title}</div>
+                    <p className="mt-2 text-sm leading-6 text-mist">{card.text}</p>
+                  </div>
                 </div>
-                <div className="mt-4 text-lg font-black text-pearl">{card.title}</div>
-                <p className="mt-2 text-sm leading-6 text-mist">{card.text}</p>
               </GlassPanel>
             ))}
           </div>
