@@ -1,5 +1,6 @@
 import { motion as Motion } from 'framer-motion'
 
+import { useAdaptiveSceneQuality } from '@/hooks/useAdaptiveSceneQuality'
 import { cn } from '@/utils/cn'
 
 const containerVariants = {
@@ -38,6 +39,15 @@ const tagMap = {
   span: Motion.span,
 }
 
+const staticTagMap = {
+  div: 'div',
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  p: 'p',
+  span: 'span',
+}
+
 export const AnimatedText = ({
   text,
   className,
@@ -46,9 +56,32 @@ export const AnimatedText = ({
   once = true,
   ...props
 }) => {
+  const quality = useAdaptiveSceneQuality()
   const Component = tagMap[Tag] ?? Motion.div
+  const StaticTag = staticTagMap[Tag] ?? 'div'
   const highlightSet = new Set(highlightWords.map((item) => item.toLowerCase()))
   const words = String(text).split(/\s+/).filter(Boolean)
+  const staticMode = quality.mobileLike || quality.reducedMotion
+
+  if (staticMode) {
+    return (
+      <StaticTag className={cn('block', className)} {...props}>
+        {words.map((word, index) => {
+          const cleanWord = word.toLowerCase().replace(/[.,!?вЂ”:;-]/g, '')
+          const isHighlighted = highlightSet.has(cleanWord)
+
+          return (
+            <span
+              key={`${word}-${index}`}
+              className={cn('mr-[0.28em] inline-block', isHighlighted && 'word-signal')}
+            >
+              {word}
+            </span>
+          )
+        })}
+      </StaticTag>
+    )
+  }
 
   return (
     <Component

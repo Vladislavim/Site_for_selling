@@ -383,6 +383,21 @@
     white-space: normal;
   }
 
+  .headline-trail {
+    text-shadow:
+      0 0 8px rgba(255,255,255,0.04),
+      0 0 14px rgba(136,191,255,0.04);
+  }
+
+  .word-signal {
+    text-shadow: 0 0 10px rgba(136, 191, 255, 0.1);
+  }
+
+  .word-signal::after {
+    height: 0.08em;
+    box-shadow: 0 0 10px rgba(140, 242, 211, 0.12);
+  }
+
   .hero-chip {
     min-height: 2.5rem;
     border-radius: 1rem;
@@ -425,6 +440,11 @@
 
   .hero-signal-card {
     border-radius: 1.5rem;
+  }
+
+  .hero-signal-card p,
+  .hero-metric-card p {
+    text-wrap: pretty;
   }
 
   ::-webkit-scrollbar {

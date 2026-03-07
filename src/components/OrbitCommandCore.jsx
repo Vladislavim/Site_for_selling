@@ -8,76 +8,70 @@ import { cn } from '@/utils/cn'
 const orbitNodes = [
   {
     label: 'Лендинги',
-    shortLabel: 'Ленд',
+    shortLabel: 'Лендинг',
     detail: 'Один экран, одна цель и сильная офферная подача без визуального мусора.',
-    angle: -28,
-    mobileAngle: -30,
+    desktopAngle: -28,
+    mobilePosition: { x: 49, y: 23 },
     ring: 1,
-    accent: 'mint',
     icon: LayoutTemplate,
   },
   {
     label: 'Многостраничный',
     shortLabel: 'Многостр',
     detail: 'Страницы услуг, кейсов и структуры доверия для бизнеса, который растет.',
-    angle: 54,
-    mobileAngle: 52,
+    desktopAngle: 48,
+    mobilePosition: { x: 18, y: 42 },
     ring: 2,
-    accent: 'sand',
     icon: Blocks,
   },
   {
     label: 'React',
     shortLabel: 'React',
     detail: 'Современный frontend для продуктов, интерфейсов и масштабируемых решений.',
-    angle: 135,
-    mobileAngle: 128,
+    desktopAngle: 126,
+    mobilePosition: { x: 50, y: 8 },
     ring: 3,
-    accent: 'ice',
     icon: Cpu,
   },
   {
     label: 'Редизайн',
     shortLabel: 'Редизайн',
     detail: 'Пересборка устаревшего сайта в дорогую, ясную и уверенную digital-подачу.',
-    angle: 210,
-    mobileAngle: 212,
+    desktopAngle: 208,
+    mobilePosition: { x: 82, y: 42 },
     ring: 2,
-    accent: 'coral',
     icon: WandSparkles,
   },
   {
     label: 'SEO-страницы',
     shortLabel: 'SEO',
-    detail: 'Сервисные страницы и коммерческая семантика вшиваются в архитектуру сразу.',
-    angle: 278,
-    mobileAngle: 284,
+    detail: 'Сервисные страницы и коммерческая семантика встраиваются в архитектуру сразу.',
+    desktopAngle: 282,
+    mobilePosition: { x: 50, y: 63 },
     ring: 1,
-    accent: 'mint',
     icon: SearchCode,
   },
   {
     label: 'Анимации',
     shortLabel: 'Motion',
     detail: 'Motion и depth усиливают впечатление, но не мешают ясности и конверсии.',
-    angle: 340,
-    mobileAngle: 338,
+    desktopAngle: 338,
+    mobilePosition: { x: 28, y: 78 },
     ring: 3,
-    accent: 'ice',
     icon: Sparkles,
   },
 ]
 
 const ringSizes = {
   desktop: {
-    1: 'clamp(12.5rem, 26vw, 16rem)',
+    1: 'clamp(12rem, 25vw, 16rem)',
     2: 'clamp(17rem, 35vw, 22rem)',
     3: 'clamp(22rem, 44vw, 28rem)',
   },
   mobile: {
-    1: '9.75rem',
-    2: '13.4rem',
-    3: '17rem',
+    1: '9.4rem',
+    2: '13rem',
+    3: '16.5rem',
   },
 }
 
@@ -94,9 +88,9 @@ const systemPills = [
   { label: 'Motion + SEO', tone: 'default' },
 ]
 
-const releaseTilt = (tiltX, tiltY) => {
-  tiltX.set(-4)
-  tiltY.set(5)
+const resetTilt = (tiltX, tiltY) => {
+  tiltX.set(-3)
+  tiltY.set(4)
 }
 
 export const OrbitCommandCore = () => {
@@ -106,34 +100,31 @@ export const OrbitCommandCore = () => {
   const dragState = useRef({ active: false, startX: 0, startRotation: 0 })
 
   const [activeIndex, setActiveIndex] = useState(0)
-  const [dragging, setDragging] = useState(false)
 
-  const reducedMotion = prefersReducedMotion || quality.reducedMotion
   const mobileLike = quality.mobileLike
-  const pointerEnabled = quality.pointerEnabled
+  const reducedMotion = prefersReducedMotion || quality.reducedMotion
+  const desktopOrbit = !mobileLike && !reducedMotion
+  const pointerEnabled = desktopOrbit && quality.pointerEnabled
 
-  const rotation = useMotionValue(16)
-  const tiltX = useMotionValue(-4)
-  const tiltY = useMotionValue(5)
-  const orbitScale = useMotionValue(1)
+  const rotation = useMotionValue(14)
+  const tiltX = useMotionValue(-3)
+  const tiltY = useMotionValue(4)
 
-  const rotateSpring = useSpring(rotation, { stiffness: 70, damping: 16, mass: 0.9 })
+  const rotateSpring = useSpring(rotation, { stiffness: 70, damping: 17, mass: 0.92 })
   const inverseRotate = useTransform(rotateSpring, (value) => -value)
-  const tiltXSpring = useSpring(tiltX, { stiffness: 120, damping: 22, mass: 0.88 })
-  const tiltYSpring = useSpring(tiltY, { stiffness: 120, damping: 22, mass: 0.88 })
-  const scaleSpring = useSpring(orbitScale, { stiffness: 170, damping: 24, mass: 0.8 })
+  const tiltXSpring = useSpring(tiltX, { stiffness: 130, damping: 22, mass: 0.88 })
+  const tiltYSpring = useSpring(tiltY, { stiffness: 130, damping: 22, mass: 0.88 })
 
   const activeNode = orbitNodes[activeIndex]
   const ActiveIcon = activeNode.icon
 
   useEffect(() => {
-    if (reducedMotion) {
+    if (!desktopOrbit) {
       return undefined
     }
 
     let frameId = 0
     let lastTime = 0
-    const speed = mobileLike ? 0.0021 : 0.0043
 
     const tick = (time) => {
       if (lastTime === 0) {
@@ -144,7 +135,7 @@ export const OrbitCommandCore = () => {
       lastTime = time
 
       if (!dragState.current.active) {
-        rotation.set(rotation.get() + delta * speed)
+        rotation.set(rotation.get() + delta * 0.0041)
       }
 
       frameId = window.requestAnimationFrame(tick)
@@ -153,7 +144,7 @@ export const OrbitCommandCore = () => {
     frameId = window.requestAnimationFrame(tick)
 
     return () => window.cancelAnimationFrame(frameId)
-  }, [mobileLike, reducedMotion, rotation])
+  }, [desktopOrbit, rotation])
 
   useEffect(() => {
     if (reducedMotion) {
@@ -164,7 +155,7 @@ export const OrbitCommandCore = () => {
       if (!dragState.current.active) {
         setActiveIndex((current) => (current + 1) % orbitNodes.length)
       }
-    }, mobileLike ? 3600 : 2600)
+    }, mobileLike ? 3200 : 2400)
 
     return () => window.clearInterval(intervalId)
   }, [mobileLike, reducedMotion])
@@ -183,8 +174,8 @@ export const OrbitCommandCore = () => {
     const xRatio = (clientX - bounds.left) / bounds.width
     const yRatio = (clientY - bounds.top) / bounds.height
 
-    tiltY.set((xRatio - 0.5) * 14)
-    tiltX.set((0.5 - yRatio) * 12)
+    tiltY.set((xRatio - 0.5) * 12)
+    tiltX.set((0.5 - yRatio) * 9)
   }
 
   const handlePointerMove = (event) => {
@@ -207,8 +198,6 @@ export const OrbitCommandCore = () => {
     dragState.current.active = true
     dragState.current.startX = event.clientX
     dragState.current.startRotation = rotation.get()
-    orbitScale.set(1.02)
-    setDragging(true)
 
     event.currentTarget.setPointerCapture?.(event.pointerId)
   }
@@ -219,9 +208,7 @@ export const OrbitCommandCore = () => {
     }
 
     dragState.current.active = false
-    orbitScale.set(1)
-    setDragging(false)
-    releaseTilt(tiltX, tiltY)
+    resetTilt(tiltX, tiltY)
 
     event.currentTarget.releasePointerCapture?.(event.pointerId)
   }
@@ -240,7 +227,7 @@ export const OrbitCommandCore = () => {
           </p>
         </div>
         <div className="rounded-[24px] border border-white/10 bg-black/16 px-4 py-3 text-sm font-semibold text-pearl backdrop-blur-xl">
-          {mobileLike ? 'Orbit mode / tap node' : 'Orbit mode / drag core'}
+          {mobileLike ? 'Mobile orbit / tap node' : 'Desktop orbit / drag scene'}
         </div>
       </div>
 
@@ -248,11 +235,7 @@ export const OrbitCommandCore = () => {
         {systemPills.map((item, index) => (
           <div
             key={item.label}
-            className={cn(
-              'hero-chip',
-              index === 0 && 'col-span-2 sm:col-auto',
-              item.tone === 'accent' && 'hero-chip-accent',
-            )}
+            className={cn('hero-chip', index === 0 && 'col-span-2 sm:col-auto', item.tone === 'accent' && 'hero-chip-accent')}
           >
             {item.label}
           </div>
@@ -261,16 +244,20 @@ export const OrbitCommandCore = () => {
 
       <div className="relative mt-6 rounded-[30px] border border-white/10 bg-black/16 p-3 sm:mt-7 sm:p-4">
         <div className="pointer-events-none absolute inset-0 rounded-[30px] bg-[linear-gradient(140deg,rgba(255,255,255,0.05),transparent_38%,rgba(136,191,255,0.05)_72%,transparent)]" />
+
         <Motion.div
           ref={stageRef}
-          className="orbital-command-stage relative min-h-[23.5rem] overflow-hidden rounded-[26px] border border-white/8 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03),rgba(0,0,0,0.08)_66%,rgba(0,0,0,0.22))] px-3 pb-4 pt-3 sm:min-h-[30rem] sm:px-4 sm:pb-6 sm:pt-4"
+          className="orbital-command-stage relative min-h-[22rem] overflow-hidden rounded-[26px] border border-white/8 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03),rgba(0,0,0,0.08)_66%,rgba(0,0,0,0.22))] px-3 pb-4 pt-3 sm:min-h-[29rem] sm:px-4 sm:pb-6 sm:pt-4"
           onMouseLeave={() => {
-            if (!dragging) {
-              releaseTilt(tiltX, tiltY)
+            if (!dragState.current.active) {
+              resetTilt(tiltX, tiltY)
             }
           }}
+          onPointerCancel={handlePointerUp}
+          onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
-          style={pointerEnabled ? { rotateX: tiltXSpring, rotateY: tiltYSpring, scale: scaleSpring } : undefined}
+          onPointerUp={handlePointerUp}
+          style={pointerEnabled ? { rotateX: tiltXSpring, rotateY: tiltYSpring } : undefined}
         >
           <div className="orbital-command-grid absolute inset-0" />
 
@@ -286,10 +273,7 @@ export const OrbitCommandCore = () => {
             {[1, 2, 3].map((ring) => (
               <div
                 key={ring}
-                className={cn(
-                  'orbital-ring absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full',
-                  ring === 3 && mobileLike ? 'opacity-60' : '',
-                )}
+                className="orbital-ring absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
                 style={{
                   width: mobileLike ? ringSizes.mobile[ring] : ringSizes.desktop[ring],
                   height: mobileLike ? ringSizes.mobile[ring] : ringSizes.desktop[ring],
@@ -298,141 +282,113 @@ export const OrbitCommandCore = () => {
             ))}
           </div>
 
-          <Motion.div className="absolute inset-0" style={{ rotate: rotateSpring }}>
-            {orbitNodes.map((node, index) => {
-              const Icon = node.icon
-              const angle = mobileLike ? node.mobileAngle : node.angle
-              const radius = mobileLike ? ringSizes.mobile[node.ring] : ringSizes.desktop[node.ring]
-              const isActive = activeIndex === index
+          {desktopOrbit ? (
+            <Motion.div className="absolute inset-0" style={{ rotate: rotateSpring }}>
+              {orbitNodes.map((node, index) => {
+                const Icon = node.icon
+                const isActive = activeIndex === index
 
-              return (
-                <div
-                  key={node.label}
-                  className="absolute left-1/2 top-1/2"
-                  style={{ transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(calc(${radius} / 2))` }}
-                >
-                  <div style={{ transform: `rotate(${-angle}deg)` }}>
+                return (
+                  <div
+                    key={node.label}
+                    className="absolute left-1/2 top-1/2"
+                    style={{
+                      transform: `translate(-50%, -50%) rotate(${node.desktopAngle}deg) translateX(calc(${ringSizes.desktop[node.ring]} / 2))`,
+                    }}
+                  >
                     <Motion.button
                       aria-label={node.label}
                       aria-pressed={isActive}
                       className={cn(
-                        'orbital-node relative flex items-center justify-center gap-1 rounded-[22px] border text-pearl backdrop-blur-xl transition duration-300',
-                        'h-[3.95rem] w-[3.95rem] flex-col px-1.5 py-2 text-center text-[10px] font-semibold leading-[1.08]',
-                        'sm:h-auto sm:w-auto sm:min-w-[10.4rem] sm:flex-row sm:justify-start sm:gap-2.5 sm:rounded-full sm:px-4 sm:py-2.5 sm:text-left sm:text-sm',
-                        isActive
-                          ? 'border-white/20 bg-white/12 shadow-glow'
-                          : 'border-white/10 bg-black/34 hover:border-white/18 hover:bg-white/8',
+                        'orbital-node relative flex min-w-[10rem] items-center gap-2.5 rounded-full border px-4 py-2.5 text-left text-sm font-semibold text-pearl backdrop-blur-xl transition duration-300',
+                        isActive ? 'border-white/20 bg-white/12 shadow-glow' : 'border-white/10 bg-black/34 hover:border-white/18 hover:bg-white/8',
                       )}
                       onClick={() => setActiveIndex(index)}
                       onFocus={() => setActiveIndex(index)}
-                      onMouseEnter={() => {
-                        if (!mobileLike) {
-                          setActiveIndex(index)
-                        }
-                      }}
+                      onMouseEnter={() => setActiveIndex(index)}
                       style={{ rotate: inverseRotate }}
-                      whileHover={!mobileLike && !reducedMotion ? { y: -4, scale: 1.025 } : undefined}
+                      whileHover={{ y: -4, scale: 1.025 }}
                     >
-                      <span
-                        className={cn(
-                          'inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/12 bg-black/30 text-pearl',
-                          isActive && 'border-white/20 bg-white/10 text-white',
-                        )}
-                      >
+                      <span className={cn('inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/12 bg-black/30 text-pearl', isActive && 'border-white/20 bg-white/10 text-white')}>
                         <Icon className="h-4 w-4" />
                       </span>
-                      <span className="max-w-[3.25rem] text-[9px] uppercase tracking-[0.08em] sm:hidden">
-                        {node.shortLabel}
-                      </span>
-                      <span className="hidden whitespace-nowrap sm:block">{node.label}</span>
+                      <span className="whitespace-nowrap">{node.label}</span>
                     </Motion.button>
                   </div>
-                </div>
-              )
-            })}
-          </Motion.div>
+                )
+              })}
+            </Motion.div>
+          ) : (
+            <div className="absolute inset-0 sm:hidden">
+              {orbitNodes.map((node, index) => {
+                const Icon = node.icon
+                const isActive = activeIndex === index
 
-          <Motion.div
-            animate={
-              reducedMotion
-                ? undefined
-                : mobileLike
-                  ? { scale: [0.985, 1.015, 0.985] }
-                  : { rotate: 360, scale: [0.99, 1.015, 0.99] }
-            }
-            className="orbital-core absolute left-1/2 top-1/2 z-20 flex h-[8.75rem] w-[8.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full sm:h-[12rem] sm:w-[12rem]"
-            onPointerCancel={handlePointerUp}
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
-            transition={{
-              duration: mobileLike ? 7.5 : 22,
-              ease: 'linear',
-              repeat: Infinity,
-            }}
-            whileTap={pointerEnabled && !reducedMotion ? { scale: 0.985 } : undefined}
-          >
-            <div className="pointer-events-none absolute inset-0 rounded-full border border-white/16 bg-[radial-gradient(circle_at_30%_28%,rgba(255,255,255,0.36),rgba(136,191,255,0.28)_34%,rgba(10,18,30,0.28)_66%,rgba(0,0,0,0)_100%)] shadow-planet" />
-            <div className="pointer-events-none absolute inset-[10%] rounded-full border border-white/10 bg-[radial-gradient(circle_at_center,rgba(140,242,211,0.16),transparent_66%)]" />
-            <div className="relative z-10 max-w-[9rem] px-4 text-center sm:max-w-[11rem]">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.28em] text-pearl/72 sm:text-xs">Core engine</div>
-              <div className="mt-2.5 text-[1.18rem] font-black leading-[1.02] text-pearl sm:mt-3 sm:text-[1.7rem]">
-                Подача
-                <br />
-                доверие
-                <br />
-                конверсия
-              </div>
-              <p className="mt-2 text-[10px] leading-4 text-mist sm:mt-3 sm:text-xs sm:leading-6">
-                {mobileLike ? 'Тап по орбите' : 'Потяните ядро'} и посмотрите, как сайт собирается вокруг цели бизнеса.
-              </p>
+                return (
+                  <button
+                    key={node.label}
+                    className={cn(
+                      'absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold text-pearl backdrop-blur-xl transition duration-300',
+                      isActive ? 'border-white/20 bg-white/12 shadow-glow' : 'border-white/10 bg-black/34',
+                    )}
+                    onClick={() => setActiveIndex(index)}
+                    style={{ left: `${node.mobilePosition.x}%`, top: `${node.mobilePosition.y}%` }}
+                    type="button"
+                  >
+                    <span className={cn('inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/12 bg-black/30 text-pearl', isActive && 'border-white/20 bg-white/10')}>
+                      <Icon className="h-3.5 w-3.5" />
+                    </span>
+                    <span className="whitespace-nowrap">{node.shortLabel}</span>
+                  </button>
+                )
+              })}
             </div>
-          </Motion.div>
+          )}
 
-          <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 grid gap-2 sm:hidden">
-            <div className="rounded-[22px] border border-white/10 bg-black/36 px-4 py-3 backdrop-blur-xl">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-mint">Активная орбита</div>
-              <div className="mt-2 flex items-start gap-3">
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/8 text-pearl">
-                  <ActiveIcon className="h-4 w-4" />
-                </span>
-                <div className="min-w-0">
-                  <div className="text-base font-black text-pearl">{activeNode.label}</div>
-                  <p className="mt-1 text-xs leading-5 text-mist">{activeNode.detail}</p>
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-[9.5rem] w-[9.5rem] -translate-x-1/2 -translate-y-1/2 sm:h-[12rem] sm:w-[12rem]">
+            {!mobileLike ? (
+              <Motion.div
+                animate={reducedMotion ? undefined : { rotate: 360 }}
+                className="absolute inset-[-0.7rem] rounded-full border border-dashed border-white/10"
+                transition={{ duration: 28, ease: 'linear', repeat: Infinity }}
+              />
+            ) : null}
+
+            <div className="orbital-core absolute inset-0 flex items-center justify-center rounded-full">
+              <div className="pointer-events-none absolute inset-0 rounded-full border border-white/16 bg-[radial-gradient(circle_at_30%_28%,rgba(255,255,255,0.36),rgba(136,191,255,0.28)_34%,rgba(10,18,30,0.28)_66%,rgba(0,0,0,0)_100%)] shadow-planet" />
+              <div className="pointer-events-none absolute inset-[10%] rounded-full border border-white/10 bg-[radial-gradient(circle_at_center,rgba(140,242,211,0.16),transparent_66%)]" />
+              <div className="relative z-10 max-w-[9rem] px-4 text-center sm:max-w-[11rem]">
+                <div className="text-[10px] font-semibold uppercase tracking-[0.28em] text-pearl/72 sm:text-xs">Core engine</div>
+                <div className="mt-2.5 text-[1.18rem] font-black leading-[1.02] text-pearl sm:mt-3 sm:text-[1.7rem]">
+                  Подача
+                  <br />
+                  доверие
+                  <br />
+                  конверсия
                 </div>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-[20px] border border-white/10 bg-white/7 px-3 py-3">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-mist">Логика ядра</div>
-                <p className="mt-2 text-xs leading-5 text-pearl/82">
-                  Орбиты показывают, из каких модулей собирается дорогой продающий сайт.
-                </p>
-              </div>
-              <div className="rounded-[20px] border border-mint/15 bg-mint/10 px-3 py-3">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-mint">Mobile mode</div>
-                <p className="mt-2 text-xs leading-5 text-pearl/84">
-                  Анимация легче, движение мягче, плашки компактнее и без лишнего шума.
+                <p className="mt-2 text-[10px] leading-4 text-mist sm:mt-3 sm:text-xs sm:leading-6">
+                  {mobileLike ? 'Центр системы' : 'Потяните сцену и меняйте фокус'} вокруг задачи бизнеса.
                 </p>
               </div>
             </div>
           </div>
         </Motion.div>
 
-        <div className="mt-4 hidden gap-4 sm:grid sm:grid-cols-[1.08fr,0.92fr]">
-          <div className="rounded-[24px] border border-white/10 bg-white/6 p-5">
+        <div className="mt-4 grid gap-3 sm:grid-cols-[1.08fr,0.92fr]">
+          <div className="rounded-[24px] border border-white/10 bg-white/6 p-4 sm:p-5">
             <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-mint">Активный модуль</div>
             <div className="mt-3 flex items-start gap-3">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-black/25 text-pearl">
                 <ActiveIcon className="h-4 w-4" />
               </span>
               <div>
-                <div className="text-xl font-black text-pearl">{activeNode.label}</div>
+                <div className="text-lg font-black text-pearl sm:text-xl">{activeNode.label}</div>
                 <p className="mt-2 text-sm leading-7 text-mist">{activeNode.detail}</p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-[24px] border border-white/10 bg-black/24 p-5">
+          <div className="rounded-[24px] border border-white/10 bg-black/24 p-4 sm:p-5">
             <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-mist">Логика ядра</div>
             <p className="mt-3 text-sm leading-7 text-pearl/86">
               Орбиты не про декор. Это карта того, как сайт собирается из смысла, визуальной подачи,
@@ -451,7 +407,7 @@ export const OrbitCommandCore = () => {
                   onClick={() => setActiveIndex(index)}
                   type="button"
                 >
-                  {node.label}
+                  {mobileLike ? node.shortLabel : node.label}
                 </button>
               ))}
             </div>
