@@ -11,7 +11,20 @@
       content="Разработка сайтов под ключ: лендинги, многостраничные сайты, React-фронтенды, анимации, редизайн и уникальные проекты с сильной подачей и понятной логикой заявки."
     />
     <meta name="theme-color" content="#040507" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://site-for-selling.vercel.app" />
     <title>Разработка сайтов под ключ | Exestination Studio</title>
+    <script>
+      ;(() => {
+        const canonicalOrigin = 'https://site-for-selling.vercel.app'
+        const canonicalHost = 'site-for-selling.vercel.app'
+        const { hostname, pathname, search, hash } = window.location
+
+        if (hostname.endsWith('.vercel.app') && hostname !== canonicalHost) {
+          window.location.replace(`${canonicalOrigin}${pathname}${search}${hash}`)
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
